@@ -12,7 +12,7 @@
     {
         private readonly ParameterExpression _env = Expression.Parameter(typeof (IDictionary<string, object>));
         private readonly ParameterExpression _next = Expression.Parameter(typeof (Func<IDictionary<string,object>, Task>));
-        private readonly ConstantExpression _hostKey = Expression.Constant("Host");
+        private readonly ConstantExpression _originKey = Expression.Constant("Origin");
 
         private readonly OriginMatcher[] _matchers;
 
@@ -137,7 +137,7 @@
             ParameterExpression allowed = Expression.Variable(typeof (bool));
             var matchTests = new List<Expression>();
             var host = Expression.Variable(typeof (string));
-            var assignHost = Expression.Assign(host, Expression.Call(Methods.GetRequestHeaderValue, _env, _hostKey));
+            var assignHost = Expression.Assign(host, Expression.Call(Methods.GetRequestHeaderValue, _env, _originKey));
             blocks.Add(assignHost);
             var hostIsSet = Expression.Not(Expression.Call(Methods.StringIsNullOrWhitespace, host));
 
