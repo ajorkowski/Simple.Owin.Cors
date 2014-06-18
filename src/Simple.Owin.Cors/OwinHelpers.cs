@@ -49,6 +49,10 @@
             {
                 responseHeaders["Access-Control-Allow-Methods"] = requestMethods;
             }
+            else if (requestHeaders.TryGetValue("Access-Control-Request-Method", out requestMethods))
+            {
+                responseHeaders["Access-Control-Allow-Methods"] = requestMethods;
+            }
         }
 
         public static void MirrorRequestHeaders(IDictionary<string, object> env)
@@ -57,6 +61,10 @@
             var responseHeaders = GetHeaders(env, OwinKeys.ResponseHeaders);
             string[] requestMethods;
             if (requestHeaders.TryGetValue("Access-Control-Request-Headers", out requestMethods))
+            {
+                responseHeaders["Access-Control-Allow-Headers"] = requestMethods;
+            }
+            else if (requestHeaders.TryGetValue("Access-Control-Request-Header", out requestMethods))
             {
                 responseHeaders["Access-Control-Allow-Headers"] = requestMethods;
             }
